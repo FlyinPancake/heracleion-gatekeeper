@@ -3,10 +3,10 @@ from utils import save_image_from_message_get_name
 from client import client
 from discord.utils import get
 from see_bio import process_bio_image
+from config import config
 
 TARGET_ROLE = "Verified Syndicate"
-#GUILD_ID = 901802275306106910
-GUILD_ID = 901802275306106910
+GUILD_ID = int(config['GUILD_ID'])
 
 def can_be(aa, bb):
     if aa == None:
