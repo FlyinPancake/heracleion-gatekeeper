@@ -6,11 +6,6 @@ from verification import handle_verification
 import sys
 from see_bio import process_bio_image
 
-
-res = process_bio_image("./temp/temp.jpg")
-
-sys.exit()
-
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
