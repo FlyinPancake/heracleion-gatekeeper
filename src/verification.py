@@ -47,12 +47,18 @@ async def verify_member(message, fname):
         return
 
     res = process_bio_image(fname)
+    print(res)
     if not res["matches"]:
         await message.reply(f"Verification request denied!")
         return
 
-    membs = await message.guild.fetch_members().flatten()
+    membs = await guild.fetch_members().flatten()
     member = await find_member(membs, res['name'])
+
+    if member == None or member.id != message.author.id:
+        await message.reply(f"Verification request denied!")
+        return
+
     await member.add_roles(role)
     await try_add_guild_role(guild, res['company'], member)
 

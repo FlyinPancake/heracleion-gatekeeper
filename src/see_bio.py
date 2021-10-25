@@ -15,10 +15,14 @@ def ratio(org, base, actual):
 
 def crop(img, skip, size):
     shp = img.shape
-    a = ratio(skip[1], BASE_X, shp[1])
-    ato = ratio(skip[1] + size[1], BASE_X, shp[1])
-    b = ratio(skip[0], BASE_Y, shp[0])
-    bto = ratio(skip[0] + size[0], BASE_Y, shp[0])
+    x = ratio(skip[1], BASE_X, shp[1])
+    xdif = ratio(size[1], BASE_X, shp[1])
+    y = ratio(skip[0], BASE_Y, shp[0])
+    ydif = ratio(size[0], BASE_Y, shp[0])
+    a = x
+    ato = x + xdif
+    b = y
+    bto = y + ydif
 
     cropped = img[a:ato, b:bto]
     return cropped
@@ -27,7 +31,7 @@ def read_img(image):
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     txt = pytesseract.image_to_string(img_rgb, config='-c preserve_interword_spaces=1x1 --psm 1 --oem 3')
     txt = [ii.strip() for ii in txt.split('\n')]
-    return  ''.join(txt).strip()
+    return  txt[0] or ''
 
 def filter_image(image):
     image = cv2.resize(image, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
@@ -60,6 +64,7 @@ def get_company(img_src):
 
 def does_match_logo(img_src):
     img_rgb = cv2.imread(img_src)
+    img_rgb = cv2.resize(img_rgb, (1920, 1080), interpolation =cv2.INTER_AREA)
     img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
     template = cv2.imread(LOGO,0)
     res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
