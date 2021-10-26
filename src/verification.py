@@ -74,6 +74,6 @@ async def verify_member(message, fname):
     await message.reply(f"You **{res['name']}** from **{res['company']}** are verified now!")
 
 async def handle_verification(message):
-    if message.content.startswith('!verify_me'):
+    if message.content.startswith('!verify'):
         fname = await save_image_from_message_get_name(message)
         await verify_member(message, fname)
