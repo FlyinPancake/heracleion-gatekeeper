@@ -5,8 +5,12 @@ from discord.utils import get
 from see_bio import process_bio_image
 from config import config
 
-TARGET_ROLE = "Verified Syndicate"
+TARGET_ROLE = "Verified"
 GUILD_ID = int(config['GUILD_ID'])
+AB = 'Company:abyssal-brotherhood'
+AB_FULL_NAME = 'Abyssal Brotherhood' 
+AS = 'Company:abyssal-sisterhood'
+AS_FULL_NAME = 'Abyssal Sisterhood' 
 
 def can_be(aa, bb):
     if aa == None:
@@ -24,6 +28,11 @@ async def find_member(members, name):
 async def try_add_guild_role(guild, company, member):
     try:
         rname = f"Company:{company.lower().replace(' ', '-')}"
+        if rname == AB:
+            rname = AB_FULL_NAME
+        elif rname == AS:
+            rname = AS_FULL_NAME
+
         role = get(guild.roles, name=rname)
         await member.add_roles(role)
         return True
